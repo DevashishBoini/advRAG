@@ -1,7 +1,7 @@
 [project]
 name = "advrag"
 version = "0.1.0"
-description = "dependencies for advrag"
+description = "A FastAPI project"
 authors = [
     {name = "DevashishBoini",email = "bdevashish957@gmail.com"}
 ]
@@ -9,11 +9,28 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi (>=0.120.0,<0.121.0)",
-    "uvicorn (>=0.38.0,<0.39.0)",
-    "pydantic (>=2.0.0,<3.0.0)"
+    "pydantic (>=2.0.0,<3.0.0)",
+    "uvicorn[standard] (>=0.38.0,<0.39.0)",
+    "numpy (>=2.3.4,<3.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "advrag"
+version = "0.1.0"
+description = "A FastAPI project"
+authors = ["Devashish Boini <bdevashish957@gmail.com>"]
+
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+fastapi = "^0.120.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.0"
