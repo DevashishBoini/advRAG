@@ -1,6 +1,7 @@
 # advRAG
 
 Virtual Environment is managed by Poetry.
+All the dependencies are listed in the `pyproject.toml` and `poetry.lock` files.
 
 ## Setup and Install Poetry Dependencies
 
