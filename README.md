@@ -24,3 +24,8 @@ All the dependencies are listed in the `pyproject.toml` and `poetry.lock` files.
    ```bash
    python main.py
    ```
+
+5. To deactivate the virtual environment:
+   ```bash
+   deactivate
+   ```
