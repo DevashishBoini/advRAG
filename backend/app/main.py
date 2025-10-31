@@ -125,7 +125,7 @@ def create_app() -> FastAPI:
 
     # Root health check endpoint
     @app.get("/health", tags=["health"])
-    async def health_check():
+    async def health_check() -> dict[str, str]:
         """
         Simple health check endpoint.
         For detailed health status, use /api/v1/health
@@ -133,7 +133,7 @@ def create_app() -> FastAPI:
         return {"status": "healthy", "app": settings.app_name}
 
     @app.get("/", tags=["root"])
-    async def root():
+    async def root() -> dict[str, str]:
         """Root endpoint with API information."""
         return {
             "message": f"Welcome to {settings.app_name}",

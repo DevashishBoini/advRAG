@@ -18,7 +18,7 @@ router.include_router(sessions_router)
 
 
 @router.get("/")
-async def read_root():
+async def read_root() -> dict[str, str]:
     """
     Root API endpoint.
     

@@ -133,23 +133,25 @@ async def update_session(
 
 @router.delete(
     "/{session_id}",
-    status_code=status.HTTP_204_NO_CONTENT,
+    response_model=SessionResponse,
+    status_code=status.HTTP_200_OK,
     responses={
-        204: {"description": "Session deleted successfully"},
+        200: {"description": "Session deleted successfully"},
         400: {"model": ErrorResponse, "description": "Invalid request"},
         404: {"model": ErrorResponse, "description": "Session not found"},
         500: {"model": ErrorResponse, "description": "Internal server error"},
     },
     summary="Delete a session",
-    description="Soft deletes a chat session (marks as inactive)",
+    description="Soft deletes a chat session and returns the deleted resource",
 )
-async def delete_session(session_id: UUID) -> None:
+async def delete_session(session_id: UUID) -> SessionResponse:
     """
     Delete a chat session (soft delete).
     
     - **session_id**: UUID of the session to delete
     
+    Returns the deleted session resource with confirmation message.
     The session is not actually deleted but marked as inactive/archived.
     """
-    await handle_delete_session(session_id)
-    return None
+    deleted_session = await handle_delete_session(session_id)
+    return deleted_session

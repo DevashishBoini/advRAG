@@ -11,12 +11,12 @@ from app.models.schemas import HealthCheckResponse
 logger = logging.getLogger(__name__)
 
 
-async def handle_health_check() -> tuple[HealthCheckResponse | dict, int]:
+async def handle_health_check() -> tuple[HealthCheckResponse, int]:
     """
     Handle health check logic.
     
     Returns:
-        tuple: (response_data, status_code)
+        tuple: (HealthCheckResponse, status_code)
     """
     try:
         health_status = await db_manager.check_health()
@@ -32,22 +32,20 @@ async def handle_health_check() -> tuple[HealthCheckResponse | dict, int]:
             )
         else:
             return (
-                {
-                    "status": "unhealthy",
-                    "database": "disconnected",
-                    "timestamp": datetime.utcnow().isoformat(),
-                    "error": health_status.get("error")
-                },
+                HealthCheckResponse(
+                    status="unhealthy",
+                    database="disconnected",
+                    timestamp=datetime.utcnow()
+                ),
                 503
             )
     except Exception as e:
-        logger.error(f"Health check failed: {e}")
+        logger.error(f"❌ Health check failed: {e}")
         return (
-            {
-                "status": "unhealthy",
-                "database": "error",
-                "timestamp": datetime.utcnow().isoformat(),
-                "error": str(e)
-            },
+            HealthCheckResponse(
+                status="unhealthy",
+                database="error",
+                timestamp=datetime.utcnow()
+            ),
             503
         )

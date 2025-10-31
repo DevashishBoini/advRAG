@@ -85,7 +85,7 @@ async def handle_update_session(
     return SessionResponse(**response_data)
 
 
-async def handle_delete_session(session_id: UUID) -> bool:
+async def handle_delete_session(session_id: UUID) -> SessionResponse:
     """
     Handle session deletion logic.
     
@@ -93,14 +93,19 @@ async def handle_delete_session(session_id: UUID) -> bool:
         session_id: Unique session identifier
         
     Returns:
-        bool: True if deleted successfully
+        SessionResponse: Deleted session with confirmation message
     """
     logger.info(f"ℹ️  Deleting session: {session_id}")
     
-    deleted = await session_service.delete_session(session_id)
+    deleted_session = await session_service.delete_session(session_id)
     
     logger.info(f"✅ Successfully deleted session: {session_id}")
-    return True
+    
+    # Prepare response with deletion confirmation message
+    response_data = deleted_session.to_dict()
+    response_data["message"] = "Session deleted successfully"
+    
+    return SessionResponse(**response_data)
 
 
 async def handle_list_sessions(

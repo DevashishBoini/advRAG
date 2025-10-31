@@ -261,7 +261,7 @@ class SessionService:
             logger.error(f"Error listing sessions: {e}")
             raise
     
-    async def delete_session(self, session_id: UUID) -> bool:
+    async def delete_session(self, session_id: UUID) -> ChatSession:
         """
         Delete a chat session (soft delete by marking inactive).
         
@@ -269,7 +269,7 @@ class SessionService:
             session_id: Session UUID
             
         Returns:
-            bool: True if deleted successfully
+            ChatSession: The deleted session object
             
         Raises:
             ResourceNotFoundError: If session not found
@@ -281,20 +281,21 @@ class SessionService:
             
             async def _delete():
                 async with db_manager.client.get_session() as session:
-                    result = await session.execute(
+                    # Update session to mark as deleted
+                    await session.execute(
                         update(ChatSession)
                         .where(ChatSession.id == session_id)
                         .values(is_active=False, status="archived")
                     )
-                    # Check if session was found and updated
-                    check_result = await session.execute(
+                    # Fetch and return the updated session
+                    result = await session.execute(
                         select(ChatSession).where(ChatSession.id == session_id)
                     )
-                    return check_result.scalar_one_or_none() is not None
+                    return result.scalar_one_or_none()
             
-            deleted = await db_manager.execute_with_retry(_delete)
+            deleted_session = await db_manager.execute_with_retry(_delete)
             
-            if not deleted:
+            if not deleted_session:
                 logger.warning(f"Session not found for deletion: {session_id}")
                 raise ResourceNotFoundError(
                     message="Session not found",
@@ -302,7 +303,7 @@ class SessionService:
                 )
             
             logger.info(f"Successfully deleted session: {session_id}")
-            return True
+            return deleted_session
             
         except ResourceNotFoundError:
             # Re-raise as-is
