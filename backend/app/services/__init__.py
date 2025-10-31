@@ -2,6 +2,6 @@
 Business logic services layer.
 """
 
-from app.services.base import BaseService  # noqa: F401
+from app.services.session_service import SessionService, session_service
 
-__all__ = ["BaseService"]
+__all__ = ["SessionService", "session_service"]

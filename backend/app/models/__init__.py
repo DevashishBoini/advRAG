@@ -1,5 +1,7 @@
 """
-Data models and Pydantic schemas.
+Database models package.
 """
 
-from app.models.schemas import *  # noqa: F401, F403
+from app.models.session import Base, ChatSession
+
+__all__ = ["Base", "ChatSession"]
