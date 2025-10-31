@@ -6,13 +6,19 @@ authors = [
     {name = "DevashishBoini",email = "bdevashish957@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.15"
 dependencies = [
     "fastapi (>=0.120.0,<0.121.0)",
     "pydantic (>=2.0.0,<3.0.0)",
     "uvicorn[standard] (>=0.38.0,<0.39.0)",
     "numpy (>=2.3.4,<3.0.0)",
-    "pydantic-settings (>=2.11.0,<3.0.0)"
+    "pydantic-settings (>=2.11.0,<3.0.0)",
+    "langchain (>=1.0.3,<2.0.0)",
+    "langchain-openai (>=1.0.1,<2.0.0)",
+    "langchain-community (>=0.4.1,<0.5.0)",
+    "faiss-cpu (>=1.12.0,<2.0.0)",
+    "celery (>=5.5.3,<6.0.0)",
+    "redis (>=7.0.1,<8.0.0)"
 ]
 
 
@@ -30,7 +36,7 @@ authors = ["Devashish Boini <bdevashish957@gmail.com>"]
 package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.11"
+python = ">=3.11,<3.15"
 fastapi = "^0.120.0"
 
 [tool.poetry.group.dev.dependencies]
